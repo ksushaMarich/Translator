@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24B83" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="QueryTranslation" representedClassName="QueryTranslation" syncable="YES">
+        <attribute name="original" optional="YES" attributeType="String"/>
+        <attribute name="sourceRaw" optional="YES" attributeType="String"/>
+        <attribute name="targetRaw" optional="YES" attributeType="String"/>
+        <attribute name="translation" optional="YES" attributeType="String"/>
+    </entity>
+</model>
