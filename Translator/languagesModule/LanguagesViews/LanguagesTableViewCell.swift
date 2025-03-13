@@ -12,13 +12,12 @@ class LanguageCell: UITableViewCell {
     // MARK: - naming
     static var identifier = "LanguagesTableViewCell"
     
-    #warning("сдела не приватным")
-    lazy var languageLabel: UILabel = {
+    private lazy var languageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 24)
         return label
     }()
     
@@ -49,6 +48,6 @@ class LanguageCell: UITableViewCell {
     }
     
     func setLanguageSelected() {
-        languageLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        languageLabel.font = .boldSystemFont(ofSize: 24)
     }
 }

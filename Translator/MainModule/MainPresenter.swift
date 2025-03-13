@@ -18,10 +18,6 @@ protocol MainPresenterProtocol: AnyObject {
     func switchTapped()
 }
 
-//protocol MainPresenterDelegate: AnyObject {
-//    func didSelectLanguage(_ languages: SelectedLanguages)
-//}
-
 class MainPresenter {
     weak var view: MainViewControllerProtocol?
     var router: MainRouterProtocol
@@ -67,9 +63,3 @@ extension MainPresenter: MainPresenterProtocol {
         router.presentLanguagesController(languages, destination: destination, languagesSelected: languagesSelected)
     }
 }
-
-//extension MainPresenter: MainPresenterDelegate {
-//    func didSelectLanguage(_ languages: SelectedLanguages) {
-//        interactor.setSelectedLanguages(languages)
-//    }
-//}

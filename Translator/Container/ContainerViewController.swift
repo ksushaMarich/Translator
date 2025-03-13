@@ -6,7 +6,7 @@
 //
 
 import UIKit
-#warning("новый контроллер")
+
 class ContainerViewController: UITabBarController {
 
     override func viewDidLoad() {
@@ -17,6 +17,7 @@ class ContainerViewController: UITabBarController {
     private func setupTabs() {
         tabBar.backgroundColor = .systemGray6
         tabBar.tintColor = .black
+        
         let dictionaryModule = DictionaryRouter.build()
         let mainModule = MainRouter.build()
         let settingsModule = SettingsViewController()

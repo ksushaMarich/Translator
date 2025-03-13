@@ -16,7 +16,7 @@ class DictionaryViewController: UIViewController {
     //MARK: - naming
     var presenter: DictionaryPresenterProtocol?
     
-    var translations: [QueryTranslation] = []
+    private var translations: [QueryTranslation] = []
     
     #warning("Новый лейбел")
     private lazy var historyLabel: UILabel = {
@@ -70,7 +70,7 @@ class DictionaryViewController: UIViewController {
         super.viewWillAppear(animated)
         setupView()
         #warning("переименовала метод презентора")
-        view.backgroundColor = .yellowBackground
+        view.backgroundColor = Style.themeColor
         presenter?.viewWillAppear()
     }
     

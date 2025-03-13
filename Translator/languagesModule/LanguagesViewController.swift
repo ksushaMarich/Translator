@@ -4,7 +4,7 @@
 //
 //  Created by Ксения Маричева on 03.02.2025.
 //
-#warning("Удалила headerView из tableView")
+
 import UIKit
 
 protocol LanguagesViewControllerProtocol: AnyObject {
@@ -30,7 +30,6 @@ class LanguagesViewController: UIViewController {
         return label
     }()
     
-    #warning("Иконка крестика")
     private lazy var crossView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -84,7 +83,7 @@ class LanguagesViewController: UIViewController {
     // MARK: - methods
     
     private func setupView() {
-        view.backgroundColor = .yellowBackground
+        view.backgroundColor = Style.themeColor
         
         view.addSubview(destinationLable)
         view.addSubview(crossView)

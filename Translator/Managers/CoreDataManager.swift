@@ -12,7 +12,6 @@ import CoreData
 public final class CoreDataManager: NSObject {
     
     public static let shared = CoreDataManager()
-    private override init() {}
     
     private var appDelegate: AppDelegate {
         UIApplication.shared.delegate as! AppDelegate

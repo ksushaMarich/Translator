@@ -82,7 +82,6 @@ class MainViewController: UIViewController {
         return textFelt
     }()
     
-    #warning("Новое View")
     private lazy var separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +108,7 @@ class MainViewController: UIViewController {
     }
     
     private func setupView() {
-        view.backgroundColor = .yellowBackground
+        view.backgroundColor = Style.themeColor
         
         view.addSubview(languageStackView)
         view.addSubview(translateStackView)
@@ -164,13 +163,12 @@ class MainViewController: UIViewController {
     }
 }
 
-#warning("Добвала делегат и метод делегата для поиска запроса по нажатию на клавишу Enter, удалила кнопку Enter")
 extension MainViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            presenter?.enterButtonTapped(text: translationTextField.text)
-            textField.resignFirstResponder()
-            return true
-        }
+        presenter?.enterButtonTapped(text: translationTextField.text)
+        textField.resignFirstResponder()
+        return true
+    }
 }
 
 extension MainViewController: MainViewControllerProtocol {

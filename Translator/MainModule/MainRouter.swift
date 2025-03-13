@@ -17,12 +17,10 @@ class MainRouter {
     private var presentationView: UIViewController? {
         view as? UIViewController
     }
-    
-    //weak var presenter: MainPresenterProtocol?
 }
 
 extension MainRouter: MainRouterProtocol {
-    #warning("перенесла функцию сюда что бы роутер отвечал за создание модуля")
+    
     static func build() -> MainViewController {
         let router = MainRouter()
         let interactor = MainInteractor()
@@ -32,7 +30,6 @@ extension MainRouter: MainRouterProtocol {
         presenter.view = viewController
         interactor.presenter = presenter
         router.view = viewController
-        //router.presenter = presenter
         return viewController
     }
     

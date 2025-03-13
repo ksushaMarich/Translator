@@ -6,12 +6,12 @@
 //
 
 import UIKit
-#warning("новый контроллер, просто как затычка")
+
 class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .yellowBackground
+        view.backgroundColor = Style.themeColor
     }
 }
