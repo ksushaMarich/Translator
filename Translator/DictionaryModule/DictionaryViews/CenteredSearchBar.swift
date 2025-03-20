@@ -10,12 +10,11 @@ import UIKit
 class CenteredSearchBar: UIControl {
     
     // MARK: - Properties
-    private lazy var viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3)
+    private lazy var viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.275)
     
     private lazy var view: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .brown
         return view
     }()
 
@@ -25,15 +24,26 @@ class CenteredSearchBar: UIControl {
         view.image = UIImage(systemName: "magnifyingglass")
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
+        view.tintColor = .systemGray
         return view
     }()
 
     private lazy var searchTextField: UITextField = {
         let searchBar = UITextField()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.backgroundColor = .red
-        searchBar.placeholder = "Попа"
+        searchBar.attributedPlaceholder = NSAttributedString(
+                string: "Search",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
+            )
+        searchBar.font = UIFont.systemFont(ofSize: 17)
         return searchBar
+    }()
+    
+    private lazy var separatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemGray5
+        return view
     }()
 
     // MARK: - Init
@@ -55,6 +65,7 @@ class CenteredSearchBar: UIControl {
         addSubview(view)
         view.addSubview(searchView)
         view.addSubview(searchTextField)
+        addSubview(separatorView)
 
         NSLayoutConstraint.activate([
             
@@ -68,11 +79,16 @@ class CenteredSearchBar: UIControl {
             searchView.topAnchor.constraint(equalTo: view.topAnchor),
             searchView.heightAnchor.constraint(equalToConstant: iconSize),
             searchView.widthAnchor.constraint(equalToConstant: iconSize),
-            searchView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            searchView.bottomAnchor.constraint(equalTo: separatorView.topAnchor),
             
-            searchTextField.leadingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: indent),
+            searchTextField.leadingAnchor.constraint(equalTo: searchView.trailingAnchor, constant: 2 * indent),
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -indent),
-            searchTextField.centerYAnchor.constraint(equalTo: centerYAnchor)
+            searchTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1),
             
         ])
 
@@ -99,7 +115,7 @@ class CenteredSearchBar: UIControl {
         viewWidthConstraint.isActive = false
 
         // Создаём новый констрейнт, занимающий всю ширину
-        viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.3)
+        viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.275)
         viewWidthConstraint.isActive = true
         UIView.animate(withDuration: 0.3) {
             self.layoutIfNeeded()

@@ -138,22 +138,20 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        36
+        50
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         let searchBar = CenteredSearchBar()
-        headerView.backgroundColor = .yellow
 
-        // Добавляем кастомный searchBar
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(searchBar)
 
         NSLayoutConstraint.activate([
-            searchBar.centerXAnchor.constraint(equalTo: headerView.centerXAnchor), // По центру по горизонтали
-            searchBar.centerYAnchor.constraint(equalTo: headerView.centerYAnchor), // По центру по вертикали
-            searchBar.leadingAnchor.constraint(equalTo: headerView.leadingAnchor), // Отступ слева
+            searchBar.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            searchBar.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
             searchBar.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
             
             searchBar.topAnchor.constraint(equalTo: headerView.topAnchor),
