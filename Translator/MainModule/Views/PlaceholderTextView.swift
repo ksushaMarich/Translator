@@ -9,6 +9,8 @@ import UIKit
 
 protocol PlaceholderTextViewDelegate: AnyObject {
     func didEnter(text: String)
+    #warning("Новое")
+    func textDidChange()
 }
 
 class PlaceholderTextView: UITextView {
@@ -66,11 +68,14 @@ extension PlaceholderTextView: UITextViewDelegate {
         return true
     }
     
-//    func textViewDidChange(_ textView: UITextView) {
-//        <#code#>
-//    }
+    func textViewDidChange(_ textView: UITextView) {
+        #warning("Новое")
+        listener?.textDidChange()
+    }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if text.isEmpty { inPlaceholderMode = true }
+    #warning("Дописала что бы прейсхолдер пропадал когда обращаешья к текстовому полю, тк курсор появлялся в некоректном месте")
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        if inPlaceholderMode { inPlaceholderMode = false }
+        return true
     }
 }

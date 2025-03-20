@@ -6,11 +6,20 @@
 //
 import UIKit
 
+protocol CenteredSearchBarProtocol: AnyObject {
+    func textEntered(_ text: String)
+}
+
 #warning("Перепесала класс")
 class CenteredSearchBar: UIControl {
     
     // MARK: - Properties
-    private lazy var viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.275)
+    
+    weak var delegate: CenteredSearchBarProtocol?
+    
+    private lazy var widthMultiplier = 0.275
+    
+    private lazy var viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: widthMultiplier)
     
     private lazy var view: UIView = {
         let view = UIView()
@@ -30,6 +39,7 @@ class CenteredSearchBar: UIControl {
 
     private lazy var searchTextField: UITextField = {
         let searchBar = UITextField()
+        searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.attributedPlaceholder = NSAttributedString(
                 string: "Search",
@@ -89,36 +99,34 @@ class CenteredSearchBar: UIControl {
             separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
             separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
             separatorView.heightAnchor.constraint(equalToConstant: 1),
-            
         ])
-
-        // Добавляем слушатели фокуса текстового поля
-        searchTextField.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .editingDidBegin)
-        searchTextField.addTarget(self, action: #selector(textFieldDidEndEditing), for: .editingDidEnd)
     }
+}
 
-    // MARK: - Animations
-    @objc private func textFieldDidBeginEditing() {
+extension CenteredSearchBar: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         viewWidthConstraint.isActive = false
 
-        // Создаём новый констрейнт, занимающий всю ширину
         viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor)
         viewWidthConstraint.isActive = true
         UIView.animate(withDuration: 0.3) {
             self.layoutIfNeeded()
         }
     }
-
-    @objc private func textFieldDidEndEditing() {
-        
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
         guard searchTextField.text == "" else { return }
         viewWidthConstraint.isActive = false
 
-        // Создаём новый констрейнт, занимающий всю ширину
-        viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.275)
+        viewWidthConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: widthMultiplier)
         viewWidthConstraint.isActive = true
         UIView.animate(withDuration: 0.3) {
             self.layoutIfNeeded()
         }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        delegate?.textEntered(string)
+        return true
     }
 }

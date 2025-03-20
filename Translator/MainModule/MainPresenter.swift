@@ -16,6 +16,8 @@ protocol MainPresenterProtocol: AnyObject {
     func viewDidLoaded()
     func presentLanguagesController(_ languages: SelectedLanguages, destination: DestinationLanguage, languagesSelected: @escaping (SelectedLanguages) -> Void)
     func switchTapped()
+    #warning("Новое")
+    func textDidChange()
 }
 
 class MainPresenter {
@@ -61,5 +63,10 @@ extension MainPresenter: MainPresenterProtocol {
     
     func presentLanguagesController(_ languages: SelectedLanguages, destination: DestinationLanguage, languagesSelected: @escaping (SelectedLanguages) -> Void) {
         router.presentLanguagesController(languages, destination: destination, languagesSelected: languagesSelected)
+    }
+    
+    #warning("Новое")
+    func textDidChange() {
+        view?.deleteTranslation()
     }
 }

@@ -39,18 +39,7 @@ class DictionaryViewController: UIViewController {
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(deleteAll)))
         return view
     }()
-    
-    
-//    private lazy var searchBar: UISearchBar = {
-//        let searchBar = UISearchBar()
-//        searchBar.placeholder = "Search"
-//        searchBar.delegate = self
-//        searchBar.sizeToFit()
-//        searchBar.barTintColor = .white
-//        searchBar.searchTextField.backgroundColor = .white
-//        return searchBar
-//    }()
-    
+
     private lazy var tableView : UITableView = {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -118,9 +107,12 @@ class DictionaryViewController: UIViewController {
     }
 }
 
-extension DictionaryViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presenter?.search(with: searchText)
+
+
+extension DictionaryViewController: CenteredSearchBarProtocol {
+    #warning("Новое")
+    func textEntered(_ text: String) {
+        presenter?.search(with: text)
     }
 }
 
@@ -137,13 +129,17 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 
+    #warning("Новое")
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         50
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        #warning("Пришлось добавить через вью что бы настроить констрейны правильно")
         let headerView = UIView()
         let searchBar = CenteredSearchBar()
+        searchBar.delegate = self
 
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(searchBar)

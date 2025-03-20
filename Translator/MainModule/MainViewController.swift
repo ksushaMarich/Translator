@@ -10,6 +10,9 @@ import UIKit
 protocol MainViewControllerProtocol: AnyObject {
     func showTranslation(text: String)
     func setLanguages(_ languages: SelectedLanguages)
+    func textDidChange()
+    #warning("Новое")
+    func deleteTranslation()
 }
 
 class MainViewController: UIViewController {
@@ -170,7 +173,6 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewControllerProtocol {
-    
     func setLanguages(_ languages: SelectedLanguages) {
         sourceLanguageLabel.text = languages.source.description()
         targetLanguageLabel.text = languages.target.description()
@@ -179,10 +181,21 @@ extension MainViewController: MainViewControllerProtocol {
     func showTranslation(text: String) {
         translationLabel.text = text
     }
+    
+    #warning("Новое")
+    func deleteTranslation() {
+        translationLabel.text = ""
+    }
 }
 
 extension MainViewController: PlaceholderTextViewDelegate {
+    
     func didEnter(text: String) {
         presenter?.enterButtonTapped(text: text)
+    }
+    
+    #warning("Новое")
+    func textDidChange() {
+        presenter?.textDidChange()
     }
 }
