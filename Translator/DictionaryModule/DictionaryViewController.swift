@@ -128,22 +128,22 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(with: translations[indexPath.row])
         return cell
     }
-
-    #warning("Новое")
+    
+#warning("Новое")
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         50
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        #warning("Пришлось добавить через вью что бы настроить констрейны правильно")
+#warning("Пришлось добавить через вью что бы настроить констрейны правильно")
         let headerView = UIView()
         let searchBar = CenteredSearchBar()
         searchBar.delegate = self
-
+        
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(searchBar)
-
+        
         NSLayoutConstraint.activate([
             searchBar.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
             searchBar.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
@@ -153,9 +153,14 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
             searchBar.topAnchor.constraint(equalTo: headerView.topAnchor),
             searchBar.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
         ])
-
-        return headerView
         
+        return headerView
+    }
+    
+#warning("Новое")
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        print("Кнопка нажата")
     }
 }
 

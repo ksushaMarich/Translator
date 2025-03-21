@@ -12,6 +12,8 @@ protocol DictionaryPresenterProtocol: AnyObject {
     func search(with text: String)
     func setupDictionary(with queryTranslations: [QueryTranslation])
     func deleteButtonTapped()
+    #warning("Новое")
+    func cellSelected()
 }
 
 class DictionaryPresenter {
@@ -43,5 +45,10 @@ extension DictionaryPresenter: DictionaryPresenterProtocol {
     
     func setupDictionary(with queryTranslations: [QueryTranslation]) {
         view?.setupDictionary(with: queryTranslations)
+    }
+    
+    #warning("Новое")
+    func cellSelected() {
+        router.navigateToMain()
     }
 }

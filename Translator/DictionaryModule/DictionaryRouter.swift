@@ -5,10 +5,11 @@
 //  Created by Ксения Маричева on 18.02.2025.
 //
 
-import Foundation
+import UIKit
 
 protocol DictionaryRouterProtocol {
-    
+    #warning("Новое")
+    func navigateToMain()
 }
 
 class DictionaryRouter {
@@ -24,6 +25,12 @@ class DictionaryRouter {
         interactor.presenter = presenter
         router.view = viewController
         return viewController
+    }
+    
+    #warning("Новое")
+    func navigateToMain() {
+        guard let view = view as? UIViewController else { return }
+        view.tabBarController?.selectedIndex = 0
     }
 }
 
