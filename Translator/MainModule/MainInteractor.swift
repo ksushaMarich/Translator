@@ -16,7 +16,7 @@ protocol MainInteractorProtocol: AnyObject{
 }
 
 class MainInteractor {
-    
+    //MARK: - Naming
     weak var presenter: MainPresenterProtocol?
     
     var selectedLanguages: SelectedLanguages = (.en, .ru)
@@ -25,6 +25,16 @@ class MainInteractor {
         guard let self else { return }
         self.selectedLanguages = selectedLanguages
         self.presenter?.setLanguages(selectedLanguages)
+    }
+    //MARK: - Init
+    
+    init() {
+        addObserver()
+    }
+    
+    //MARK: - Methods
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: .didSelectTranslationIndex, object: nil)
     }
     
     func translateText(_ text: String,
@@ -57,6 +67,13 @@ class MainInteractor {
                 completion(.failure(APIError.decodingError))
             }
         }.resume()
+    }
+    
+    #warning("Новое")
+    @objc private func handleNotification(_ notification: Notification) {
+        if let data = notification.userInfo?["data"] as? Int {
+               print("Переданные данные: \(data)")
+        }
     }
 }
 

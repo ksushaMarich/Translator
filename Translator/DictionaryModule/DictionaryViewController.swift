@@ -69,10 +69,10 @@ class DictionaryViewController: UIViewController {
     }
     
     //MARK: - methods
-#warning("удалила функцию отвечающию за внешний вид navigationController")
+    #warning("удалила функцию отвечающию за внешний вид navigationController")
     private func setupView() {
-        #warning("Добавила сюда не уверенна что это правильно")
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideKeyboard)))
+        #warning("Новое")
+        viewAddGestureRecognizer()
         
         view.addSubview(historyLabel)
         view.addSubview(trashView)
@@ -95,6 +95,15 @@ class DictionaryViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    #warning("Новое")
+    func viewAddGestureRecognizer() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        #warning("Новое, это нужно что бы нажатие на ячейку обрабатывалось")
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+        
     }
     
     @objc private func deleteAll() {
@@ -129,14 +138,14 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-#warning("Новое")
+    #warning("Новое")
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         50
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-#warning("Пришлось добавить через вью что бы настроить констрейны правильно")
+        #warning("Пришлось добавить через вью что бы настроить констрейны правильно")
         let headerView = UIView()
         let searchBar = CenteredSearchBar()
         searchBar.delegate = self
@@ -157,10 +166,10 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-#warning("Новое")
+    #warning("Новое")
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        print("Кнопка нажата")
+        presenter?.cellSelected(for: indexPath.row)
     }
 }
 

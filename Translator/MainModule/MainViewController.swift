@@ -13,6 +13,7 @@ protocol MainViewControllerProtocol: AnyObject {
     func textDidChange()
     #warning("Новое")
     func deleteTranslation()
+    func setTranslation(_ translation: )
 }
 
 class MainViewController: UIViewController {

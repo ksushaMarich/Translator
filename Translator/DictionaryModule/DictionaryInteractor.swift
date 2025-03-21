@@ -11,6 +11,8 @@ protocol DictionaryInteractorProtocol: AnyObject {
     func viewWillAppear()
     func search(with text: String)
     func deleteDictionary()
+    #warning("Новое")
+    func translationSelected(with index: Int)
 }
 
 class DictionaryInteractor {
@@ -30,7 +32,7 @@ class DictionaryInteractor {
 }
 
 extension DictionaryInteractor: DictionaryInteractorProtocol {
-    
+
     func viewWillAppear() {
         presenter?.setupDictionary(with: translations)
     }
@@ -42,5 +44,12 @@ extension DictionaryInteractor: DictionaryInteractorProtocol {
     func deleteDictionary() {
         coreDataManager.deleteTranslations()
         presenter?.setupDictionary(with: translations)
+    }
+    
+    #warning("Новое")
+    func translationSelected(with index: Int) {
+        NotificationCenter.default.post(name: .didSelectTranslationIndex,
+                                        object: nil,
+                                        userInfo: ["data": index])
     }
 }

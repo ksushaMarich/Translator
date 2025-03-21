@@ -14,3 +14,8 @@ struct Style {
     static let textContainerInset = UIEdgeInsets(top: 20, left: 10, bottom: 20, right: 10)
 }
 
+#warning("Новое")
+extension Notification.Name {
+    static let didSelectTranslationIndex = Notification.Name("didSelectTranslationIndex")
+}
+

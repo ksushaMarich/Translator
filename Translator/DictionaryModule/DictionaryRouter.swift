@@ -15,6 +15,8 @@ protocol DictionaryRouterProtocol {
 class DictionaryRouter {
     #warning("перенесла функцию сюда что бы роутер отвечал за создание модуля")
     weak var view: DictionaryViewControllerProtocol?
+    
+    
     static func build() -> DictionaryViewController {
         let router = DictionaryRouter()
         let interactor = DictionaryInteractor()
@@ -26,14 +28,12 @@ class DictionaryRouter {
         router.view = viewController
         return viewController
     }
-    
+}
+
+extension DictionaryRouter: DictionaryRouterProtocol {
     #warning("Новое")
     func navigateToMain() {
         guard let view = view as? UIViewController else { return }
         view.tabBarController?.selectedIndex = 0
     }
-}
-
-extension DictionaryRouter: DictionaryRouterProtocol {
-    
 }
