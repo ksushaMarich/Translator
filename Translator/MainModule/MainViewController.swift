@@ -13,7 +13,7 @@ protocol MainViewControllerProtocol: AnyObject {
     func textDidChange()
     #warning("Новое")
     func deleteTranslation()
-    func setTranslation(_ translation: )
+    func setTranslation(_ translation: QueryTranslation)
 }
 
 class MainViewController: UIViewController {
@@ -174,6 +174,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewControllerProtocol {
+    
     func setLanguages(_ languages: SelectedLanguages) {
         sourceLanguageLabel.text = languages.source.description()
         targetLanguageLabel.text = languages.target.description()
@@ -186,6 +187,15 @@ extension MainViewController: MainViewControllerProtocol {
     #warning("Новое")
     func deleteTranslation() {
         translationLabel.text = ""
+    }
+    
+    #warning("Новое")
+    func setTranslation(_ translation: QueryTranslation) {
+        sourceLanguageLabel.text = translation.source.description()
+        targetLanguageLabel.text = translation.target.description()
+        
+        translationTextView.text = translation.original
+        translationLabel.text = translation.translation
     }
 }
 

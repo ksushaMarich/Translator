@@ -72,7 +72,7 @@ class MainInteractor {
     #warning("Новое")
     @objc private func handleNotification(_ notification: Notification) {
         if let data = notification.userInfo?["data"] as? Int {
-               print("Переданные данные: \(data)")
+            presenter?.setTranslation(CoreDataManager.shared.fetchTranslations()[data])
         }
     }
 }

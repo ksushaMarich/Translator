@@ -18,6 +18,8 @@ protocol MainPresenterProtocol: AnyObject {
     func switchTapped()
     #warning("Новое")
     func textDidChange()
+    #warning("Новое")
+    func setTranslation(_ translation: QueryTranslation)
 }
 
 class MainPresenter {
@@ -68,5 +70,10 @@ extension MainPresenter: MainPresenterProtocol {
     #warning("Новое")
     func textDidChange() {
         view?.deleteTranslation()
+    }
+    
+    #warning("Новое")
+    func setTranslation(_ translation: QueryTranslation) {
+        view?.setTranslation(translation)
     }
 }

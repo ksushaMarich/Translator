@@ -17,6 +17,13 @@ class PlaceholderTextView: UITextView {
     
     weak var listener: PlaceholderTextViewDelegate?
     
+    #warning("Новое")
+    override var text: String? {
+        didSet {
+            
+        }
+    }
+    
     var placeholder = "Placeholder" {
         didSet {
             if inPlaceholderMode {
@@ -31,6 +38,7 @@ class PlaceholderTextView: UITextView {
                 text = placeholder
                 textColor = .gray
             } else {
+                #warning("Новое")
                 text = ""
                 textColor = .black
             }
