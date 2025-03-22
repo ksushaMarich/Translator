@@ -20,7 +20,7 @@ class PlaceholderTextView: UITextView {
     #warning("Новое")
     override var text: String? {
         didSet {
-            
+            if text != placeholder { inPlaceholderMode = false }
         }
     }
     
@@ -39,7 +39,7 @@ class PlaceholderTextView: UITextView {
                 textColor = .gray
             } else {
                 #warning("Новое")
-                text = ""
+                if text == placeholder { text = "" }
                 textColor = .black
             }
         }
@@ -84,6 +84,15 @@ extension PlaceholderTextView: UITextViewDelegate {
     #warning("Дописала что бы прейсхолдер пропадал когда обращаешья к текстовому полю, тк курсор появлялся в некоректном месте")
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if inPlaceholderMode { inPlaceholderMode = false }
+        return true
+    }
+    
+    #warning("Новое")
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        if text == "" {
+            text = placeholder
+            inPlaceholderMode = true
+        }
         return true
     }
 }

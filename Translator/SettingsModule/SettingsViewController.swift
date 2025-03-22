@@ -7,7 +7,11 @@
 
 import UIKit
 
+protocol SettingsViewControllerProtocol: AnyObject {}
+
 class SettingsViewController: UIViewController {
+    
+    var presenter: SettingsPresenterProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,3 +19,5 @@ class SettingsViewController: UIViewController {
         view.backgroundColor = Style.themeColor
     }
 }
+
+extension SettingsViewController: SettingsViewControllerProtocol {}

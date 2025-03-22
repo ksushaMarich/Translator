@@ -17,13 +17,15 @@ class LanguageCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = .black
-        label.font = .systemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 18)
         return label
     }()
     
     // MARK: - init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        #warning("Новое")
+        selectionStyle = .none
         setupCell()
     }
     
@@ -48,6 +50,6 @@ class LanguageCell: UITableViewCell {
     }
     
     func setLanguageSelected() {
-        languageLabel.font = .boldSystemFont(ofSize: 24)
+        languageLabel.font = .boldSystemFont(ofSize: 18)
     }
 }

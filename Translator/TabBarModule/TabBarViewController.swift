@@ -7,8 +7,12 @@
 
 import UIKit
 
-class ContainerViewController: UITabBarController {
+protocol TabBarViewControllerProtocol: AnyObject {}
 
+class TabBarViewController: UITabBarController {
+
+    var presenter: TabBarPresenterProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabs()
@@ -20,7 +24,7 @@ class ContainerViewController: UITabBarController {
         
         let dictionaryModule = DictionaryRouter.build()
         let mainModule = MainRouter.build()
-        let settingsModule = SettingsViewController()
+        let settingsModule = SettingsRouter.build()
         
         mainModule.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "translate"), tag: 0)
         dictionaryModule.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "book.pages"), tag: 1)
@@ -28,4 +32,8 @@ class ContainerViewController: UITabBarController {
         
         viewControllers = [mainModule, dictionaryModule, settingsModule]
     }
+}
+
+extension TabBarViewController: TabBarViewControllerProtocol {
+    
 }
