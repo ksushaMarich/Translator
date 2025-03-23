@@ -150,11 +150,6 @@ class MainViewController: UIViewController {
         ])
     }
     
-    private func clear() {
-        translationTextView.text = ""
-        translationLabel.text = ""
-    }
-    
     @objc private func switchTapped() {
         presenter?.switchTapped()
     }

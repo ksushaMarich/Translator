@@ -9,7 +9,6 @@ import UIKit
 
 protocol PlaceholderTextViewDelegate: AnyObject {
     func didEnter(text: String)
-    #warning("Новое")
     func textDidChange()
 }
 
@@ -17,20 +16,17 @@ class PlaceholderTextView: UITextView {
     
     weak var listener: PlaceholderTextViewDelegate?
     
-    #warning("Новое")
-    override var text: String? {
+    var placeholder = "Placeholder" {
         didSet {
-            if text != placeholder { inPlaceholderMode = false }
+            text = placeholder
         }
     }
     
-    var placeholder = "Placeholder" {
-        didSet {
-            if inPlaceholderMode {
-                text = placeholder
-            }
-        }
-    }
+//    override var text: String? {
+//        didSet {
+//            if text != placeholder { inPlaceholderMode = false }
+//        }
+//    }
 
     private lazy var inPlaceholderMode = true {
         didSet {
@@ -38,8 +34,7 @@ class PlaceholderTextView: UITextView {
                 text = placeholder
                 textColor = .gray
             } else {
-                #warning("Новое")
-                if text == placeholder { text = "" }
+                text = ""
                 textColor = .black
             }
         }
@@ -65,8 +60,6 @@ extension PlaceholderTextView: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
-        if inPlaceholderMode { inPlaceholderMode = false }
-        
         if text == "\n" {
             listener?.didEnter(text: textView.text)
             textView.resignFirstResponder()
@@ -80,18 +73,14 @@ extension PlaceholderTextView: UITextViewDelegate {
         listener?.textDidChange()
     }
     
-    #warning("Дописала что бы прейсхолдер пропадал когда обращаешья к текстовому полю, тк курсор появлялся в некоректном месте")
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if inPlaceholderMode { inPlaceholderMode = false }
         return true
     }
     
-    #warning("Новое")
-    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if text == "" {
-            text = placeholder
             inPlaceholderMode = true
         }
-        return true
     }
 }
