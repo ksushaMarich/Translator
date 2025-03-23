@@ -13,4 +13,4 @@ class TabBarInteractor {
     weak var presenter: TabBarPresenterProtocol?
 }
 
-extension SettingsInteractor: TabBarInteractorProtocol {}
+extension TabBarInteractor: TabBarInteractorProtocol {}

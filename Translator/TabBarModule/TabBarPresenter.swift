@@ -20,4 +20,4 @@ class TabBarPresenter {
     }
 }
 
-extension SettingsPresenter: TabBarPresenterProtocol {}
+extension TabBarPresenter: TabBarPresenterProtocol {}
