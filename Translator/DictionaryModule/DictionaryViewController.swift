@@ -166,7 +166,6 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         return headerView
     }
     
-    #warning("Новое")
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         presenter?.cellSelected(for: indexPath.row)

@@ -77,7 +77,6 @@ extension PlaceholderTextView: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        #warning("Новое")
         listener?.textDidChange()
     }
     

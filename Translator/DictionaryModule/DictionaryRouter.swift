@@ -8,20 +8,23 @@
 import UIKit
 
 protocol DictionaryRouterProtocol {
-    #warning("Новое")
-    func navigateToMain()
+    func navigateToMain(with card: QueryTranslation)
 }
 
 class DictionaryRouter {
+    
+    weak var tabBarRouter: TabBarRouterProtocol?
+    
     #warning("перенесла функцию сюда что бы роутер отвечал за создание модуля")
     weak var view: DictionaryViewControllerProtocol?
     
-    
-    static func build() -> DictionaryViewController {
+    static func build(with tabBarRouter: TabBarRouterProtocol) -> DictionaryViewController {
         let router = DictionaryRouter()
+        router.tabBarRouter = tabBarRouter
         let interactor = DictionaryInteractor()
         let presenter = DictionaryPresenter(router: router, interactor: interactor)
         let viewController = DictionaryViewController()
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "book.pages"), tag: 1)
         viewController.presenter = presenter
         presenter.view = viewController
         interactor.presenter = presenter
@@ -31,9 +34,8 @@ class DictionaryRouter {
 }
 
 extension DictionaryRouter: DictionaryRouterProtocol {
-    #warning("Новое")
-    func navigateToMain() {
-        guard let view = view as? UIViewController else { return }
-        view.tabBarController?.selectedIndex = 0
+    
+    func navigateToMain(with card: QueryTranslation) {
+        tabBarRouter?.navigateToMain(with: card)
     }
 }

@@ -5,11 +5,13 @@
 //  Created by Ксюша on 22.03.2025.
 //
 
-import Foundation
+import UIKit
 
-protocol TabBarRouterProtocol: AnyObject {}
+protocol TabBarRouterProtocol: AnyObject {
+    func navigateToMain(with card: QueryTranslation)
+}
 
-class TabBarRouter: TabBarRouterProtocol {
+class TabBarRouter {
     
     weak var view: TabBarViewControllerProtocol?
     
@@ -18,6 +20,13 @@ class TabBarRouter: TabBarRouterProtocol {
         let interactor = TabBarInteractor()
         let presenter = TabBarPresenter(router: router, interactor: interactor)
         let viewController = TabBarViewController()
+        
+        let mainModule = MainRouter.build(with: router)
+        let dictionaryModule = DictionaryRouter.build(with: router)
+        let settingsModule = SettingsRouter.build(with: router)
+        
+        viewController.viewControllers = [mainModule, dictionaryModule, settingsModule]
+        
         viewController.presenter = presenter
         presenter.view = viewController
         interactor.presenter = presenter
@@ -26,4 +35,12 @@ class TabBarRouter: TabBarRouterProtocol {
     }
 }
 
-extension SettingsRouter: TabBarRouterProtocol {}
+extension TabBarRouter: TabBarRouterProtocol {
+    func navigateToMain(with card: QueryTranslation) {
+        guard let tabBarController = view as? UITabBarController,
+              let mainModule = tabBarController.viewControllers?.first as? MainViewController else { return }
+        
+        mainModule.presenter?.setTranslationCard(card)
+        tabBarController.selectedIndex = 0
+    }
+}

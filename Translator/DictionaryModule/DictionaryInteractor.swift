@@ -11,20 +11,19 @@ protocol DictionaryInteractorProtocol: AnyObject {
     func viewWillAppear()
     func search(with text: String)
     func deleteDictionary()
-    #warning("Новое")
-    func translationSelected(with index: Int)
+    func translationCardSelected(with index: Int)
 }
 
 class DictionaryInteractor {
     weak var presenter: DictionaryPresenterProtocol?
     private let coreDataManager = CoreDataManager.shared
     
-    private var translations: [QueryTranslation] {
+    private var translationCards: [QueryTranslation] {
         coreDataManager.fetchTranslations()
     }
     
     private func filterTranslations(with text: String ) -> [QueryTranslation] {
-        translations.filter {
+        translationCards.filter {
             $0.original.lowercased().contains(text.lowercased()) ||
             $0.translation.lowercased().contains(text.lowercased())
         }
@@ -34,22 +33,19 @@ class DictionaryInteractor {
 extension DictionaryInteractor: DictionaryInteractorProtocol {
 
     func viewWillAppear() {
-        presenter?.setupDictionary(with: translations)
+        presenter?.setupDictionary(with: translationCards)
     }
     
     func search(with text: String) {
-        presenter?.setupDictionary(with: text.isEmpty ? translations : filterTranslations(with: text))
+        presenter?.setupDictionary(with: text.isEmpty ? translationCards : filterTranslations(with: text))
     }
     
     func deleteDictionary() {
         coreDataManager.deleteTranslations()
-        presenter?.setupDictionary(with: translations)
+        presenter?.setupDictionary(with: translationCards)
     }
     
-    #warning("Новое")
-    func translationSelected(with index: Int) {
-        NotificationCenter.default.post(name: .didSelectTranslationIndex,
-                                        object: nil,
-                                        userInfo: ["data": index])
+    func translationCardSelected(with index: Int) {
+        presenter?.showTranslationCard(translationCards[index])
     }
 }

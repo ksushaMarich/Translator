@@ -22,18 +22,14 @@ enum DestinationLanguage {
     }
 }
 
-#warning("Добваила функцию description(), что бы можно было получать полные называния языка, а не сокращенные")
 enum Language: String {
     case en, ru, es
     
-    func description() -> String {
-            switch self {
-            case .en:
-                return "English"
-            case .ru:
-                return "Russian"
-            case .es:
-                return "Spanish"
+    var description: String {
+        switch self {
+        case .en: return "English"
+        case .ru: return "Russian"
+        case .es: return "Spanish"
         }
     }
 }

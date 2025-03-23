@@ -26,16 +26,8 @@ class MainInteractor {
         self.selectedLanguages = selectedLanguages
         self.presenter?.setLanguages(selectedLanguages)
     }
-    //MARK: - Init
-    
-    init() {
-        addObserver()
-    }
     
     //MARK: - Methods
-    private func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification), name: .didSelectTranslationIndex, object: nil)
-    }
     
     func translateText(_ text: String,
                        completion: @escaping (Result<String, Error>) -> Void) {
@@ -67,13 +59,6 @@ class MainInteractor {
                 completion(.failure(APIError.decodingError))
             }
         }.resume()
-    }
-    
-    #warning("Новое")
-    @objc private func handleNotification(_ notification: Notification) {
-        if let data = notification.userInfo?["data"] as? Int {
-            presenter?.setTranslation(CoreDataManager.shared.fetchTranslations()[data])
-        }
     }
 }
 

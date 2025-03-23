@@ -21,11 +21,12 @@ class MainRouter {
 
 extension MainRouter: MainRouterProtocol {
     
-    static func build() -> MainViewController {
+    static func build(with tabBarRouter: TabBarRouterProtocol) -> MainViewController {
         let router = MainRouter()
         let interactor = MainInteractor()
         let presenter = MainPresenter(router: router, interactor: interactor)
         let viewController = MainViewController()
+        viewController.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "translate"), tag: 0)
         viewController.presenter = presenter
         presenter.view = viewController
         interactor.presenter = presenter

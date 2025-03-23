@@ -11,9 +11,8 @@ protocol MainViewControllerProtocol: AnyObject {
     func showTranslation(text: String)
     func setLanguages(_ languages: SelectedLanguages)
     func textDidChange()
-    #warning("Новое")
     func deleteTranslation()
-    func setTranslation(_ translation: QueryTranslation)
+    func setTranslationCard(_ translation: QueryTranslation)
 }
 
 class MainViewController: UIViewController {
@@ -176,26 +175,24 @@ class MainViewController: UIViewController {
 extension MainViewController: MainViewControllerProtocol {
     
     func setLanguages(_ languages: SelectedLanguages) {
-        sourceLanguageLabel.text = languages.source.description()
-        targetLanguageLabel.text = languages.target.description()
+        sourceLanguageLabel.text = languages.source.description
+        targetLanguageLabel.text = languages.target.description
     }
     
     func showTranslation(text: String) {
         translationLabel.text = text
     }
     
-    #warning("Новое")
     func deleteTranslation() {
         translationLabel.text = ""
     }
     
-    #warning("Новое")
-    func setTranslation(_ translation: QueryTranslation) {
-        sourceLanguageLabel.text = translation.source.description()
-        targetLanguageLabel.text = translation.target.description()
+    func setTranslationCard(_ card: QueryTranslation) {
+        sourceLanguageLabel.text = card.source.description
+        targetLanguageLabel.text = card.target.description
         
-        translationTextView.text = translation.original
-        translationLabel.text = translation.translation
+        translationTextView.text = card.original
+        translationLabel.text = card.translation
     }
 }
 
@@ -205,7 +202,6 @@ extension MainViewController: PlaceholderTextViewDelegate {
         presenter?.enterButtonTapped(text: text)
     }
     
-    #warning("Новое")
     func textDidChange() {
         presenter?.textDidChange()
     }

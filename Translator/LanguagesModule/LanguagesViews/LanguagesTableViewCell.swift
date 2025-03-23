@@ -46,7 +46,7 @@ class LanguageCell: UITableViewCell {
     }
     
     func configure(with language: Language) {
-        languageLabel.text = language.description()
+        languageLabel.text = language.description
     }
     
     func setLanguageSelected() {
