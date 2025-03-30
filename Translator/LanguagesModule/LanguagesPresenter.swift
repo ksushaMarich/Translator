@@ -9,11 +9,10 @@ import Foundation
 
 protocol LanguagesPresenterProtocol: AnyObject {
     func viewDidLoaded()
-    #warning("Добавила выбраный язык")
-    func setLanguages(_ languages: [Language], header: String, selecdedLanguage: Language)
+    func setLanguages(_ languages: [Language], header: String, highlightedRowIndex: Int)
     func didSelectRowAt(_ index: Int)
     func changeSelectedLanguages(_ languages: SelectedLanguages)
-    func closeTapped()
+    func crossTapped()
 }
 
 class LanguagesPresenter {
@@ -35,9 +34,8 @@ extension LanguagesPresenter: LanguagesPresenterProtocol {
         interactor.viewDidLoaded()
     }
     
-    #warning("Немного изменила функцию")
-    func setLanguages(_ languages: [Language], header: String, selecdedLanguage: Language) {
-        view?.setLanguages(languages, selectedLanguage: selecdedLanguage, header: header)
+    func setLanguages(_ languages: [Language], header: String, highlightedRowIndex: Int) {
+        view?.setLanguages(languages, header: header, highlightedRowIndex: highlightedRowIndex)
     }
     
     func didSelectRowAt(_ index: Int) {
@@ -48,7 +46,7 @@ extension LanguagesPresenter: LanguagesPresenterProtocol {
         router.closeController(with: languages)
     }
     
-    func closeTapped() {
+    func crossTapped() {
         router.closeController(with: nil)
     }
 }

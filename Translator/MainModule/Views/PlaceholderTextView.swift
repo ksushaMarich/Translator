@@ -18,23 +18,26 @@ class PlaceholderTextView: UITextView {
     
     var placeholder = "Placeholder" {
         didSet {
-            text = placeholder
+            changeTextManually(placeholder)
         }
     }
     
-//    override var text: String? {
-//        didSet {
-//            if text != placeholder { inPlaceholderMode = false }
-//        }
-//    }
+    override var text: String? {
+        didSet {
+            if !inManualMode {
+                inPlaceholderMode = text == ""
+            }
+        }
+    }
 
+    private var inManualMode = false
+    
     private lazy var inPlaceholderMode = true {
         didSet {
             if inPlaceholderMode {
-                text = placeholder
+                changeTextManually(placeholder)
                 textColor = .gray
             } else {
-                text = ""
                 textColor = .black
             }
         }
@@ -53,6 +56,13 @@ class PlaceholderTextView: UITextView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    //MARK: - methods
+    func changeTextManually(_ text: String) {
+        inManualMode = true
+        self.text = text
+        inManualMode = false
     }
 }
 
@@ -74,7 +84,10 @@ extension PlaceholderTextView: UITextViewDelegate {
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if inPlaceholderMode { inPlaceholderMode = false }
+        if inPlaceholderMode {
+            inPlaceholderMode = false
+            changeTextManually("")
+        }
         return true
     }
     

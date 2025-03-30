@@ -24,7 +24,6 @@ class LanguageCell: UITableViewCell {
     // MARK: - init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        #warning("Новое")
         selectionStyle = .none
         setupCell()
     }
@@ -49,7 +48,7 @@ class LanguageCell: UITableViewCell {
         languageLabel.text = language.description
     }
     
-    func setLanguageSelected() {
+    func setHighlighted() {
         languageLabel.font = .boldSystemFont(ofSize: 18)
     }
 }

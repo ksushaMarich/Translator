@@ -26,7 +26,6 @@ class LanguagesInteractor {
         self.destination = destination
     }
     
-    #warning("Добавила функцию которая меняет местами параметры")
     private func switchLanguages() {
         selectedLanguages = (selectedLanguages.target, selectedLanguages.source)
     }
@@ -35,32 +34,35 @@ class LanguagesInteractor {
 extension LanguagesInteractor: LanguagesInteractorProtocol {
     
     func viewDidLoaded() {
-        #warning("Добавила проверку на то какой язык выбраный")
-        let selecdedLanguage: Language
+        
+        let selectedLanguage: Language
+        
         switch destination {
-        case.source:
-            selecdedLanguage = selectedLanguages.source
-        case .target:
-            selecdedLanguage = selectedLanguages.target
+        case.source:  selectedLanguage = selectedLanguages.source
+        case .target: selectedLanguage = selectedLanguages.target
         }
-        presenter?.setLanguages(languages, header: destination.header, selecdedLanguage: selecdedLanguage)
+        
+        let highlightedRowIndex = languages.firstIndex(of: selectedLanguage) ?? 0
+        presenter?.setLanguages(languages, header: destination.header, highlightedRowIndex: highlightedRowIndex)
     }
     
     func didSelectRowAt(_ index: Int) {
         
+        let selectedLanguage = languages[index]
+        
         switch destination {
         case .source:
-            #warning("Добавила проверку совпадает ли выбраный элемент с противополжным, если да то значения меняются местами")
-            if selectedLanguages.target == languages[index] {
+            if selectedLanguages.target == selectedLanguage {
                 switchLanguages()
+            } else {
+                selectedLanguages.source = selectedLanguage
             }
-            selectedLanguages.source = languages[index]
         case .target:
-            #warning("Добавила проверку совпадает ли выбраный элемент с противополжным, если да то значения меняются местами")
-            if selectedLanguages.source == languages[index] {
+            if selectedLanguages.source == selectedLanguage {
                 switchLanguages()
+            } else {
+                selectedLanguages.target = selectedLanguage
             }
-            selectedLanguages.target = languages[index]
         }
         
         presenter?.changeSelectedLanguages(selectedLanguages)

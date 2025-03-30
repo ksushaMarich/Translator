@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LanguagesViewControllerProtocol: AnyObject {
-    func setLanguages(_ languages: [Language], selectedLanguage: Language ,header: String)
+    func setLanguages(_ languages: [Language], header: String, highlightedRowIndex: Int)
 }
 
 class LanguagesViewController: UIViewController {
@@ -16,12 +16,11 @@ class LanguagesViewController: UIViewController {
     // MARK: - naming
     var presenter: LanguagesPresenterProtocol
     
-    var languages: [Language] = []
-    var header: String = ""
-    #warning("Добавила новую переменную")
-    var selectedLanguage: Language = .en
+    private var languages: [Language] = []
+    private var header: String = ""
+    private var highlightedRowIndex: Int = 0
     
-    private lazy var destinationLable: UILabel = {
+    private lazy var destinationLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -41,7 +40,6 @@ class LanguagesViewController: UIViewController {
         return view
     }()
     
-    #warning("Разделитель, может не правильно но мне показалось самый простой способ")
     private lazy var separatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -85,23 +83,23 @@ class LanguagesViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = Style.themeColor
         
-        view.addSubview(destinationLable)
+        view.addSubview(destinationLabel)
         view.addSubview(crossView)
         view.addSubview(separatorView)
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            destinationLable.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            destinationLable.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            destinationLable.heightAnchor.constraint(equalToConstant: 50),
-            destinationLable.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
+            destinationLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            destinationLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            destinationLabel.heightAnchor.constraint(equalToConstant: 50),
+            destinationLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
             
-            crossView.centerYAnchor.constraint(equalTo: destinationLable.centerYAnchor),
-            crossView.heightAnchor.constraint(equalTo: destinationLable.heightAnchor, multiplier: 0.55),
+            crossView.centerYAnchor.constraint(equalTo: destinationLabel.centerYAnchor),
+            crossView.heightAnchor.constraint(equalTo: destinationLabel.heightAnchor, multiplier: 0.55),
             crossView.widthAnchor.constraint(equalTo: crossView.heightAnchor),
             crossView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             
-            separatorView.topAnchor.constraint(equalTo: destinationLable.bottomAnchor),
+            separatorView.topAnchor.constraint(equalTo: destinationLabel.bottomAnchor),
             separatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             separatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             separatorView.heightAnchor.constraint(equalToConstant: 1),
@@ -113,9 +111,8 @@ class LanguagesViewController: UIViewController {
         ])
     }
     
-    #warning("Новая функция")
     @objc func crossTapped() {
-        presenter.closeTapped()
+        presenter.crossTapped()
     }
 }
 
@@ -126,14 +123,17 @@ extension LanguagesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: LanguageCell.identifier) as? LanguageCell else {
             return UITableViewCell()
         }
-        #warning("Добавила сюда проверку, не знаю можно ли так, или надо что бы это было в презентере")
-        if selectedLanguage == languages[indexPath.row] {
-            cell.setLanguageSelected()
+        
+        if highlightedRowIndex == indexPath.row {
+            cell.setHighlighted()
         }
+        
         cell.configure(with: languages[indexPath.row])
+        
         return cell
     }
     
@@ -148,10 +148,10 @@ extension LanguagesViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension LanguagesViewController: LanguagesViewControllerProtocol {
     
-    func setLanguages(_ languages: [Language], selectedLanguage: Language ,header: String) {
+    func setLanguages(_ languages: [Language], header: String, highlightedRowIndex: Int) {
         self.languages = languages
         self.header = header
-        self.selectedLanguage = selectedLanguage
+        self.highlightedRowIndex = highlightedRowIndex
         tableView.reloadData()
     }
 }
