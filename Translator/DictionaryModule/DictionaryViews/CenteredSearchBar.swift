@@ -14,17 +14,18 @@ class CenteredSearchBar: UIControl {
     
     // MARK: - Properties
     
+    private let indent: CGFloat = 8
+    
     weak var delegate: CenteredSearchBarProtocol?
     
-//    private lazy var viewWidthBaseConstraint = view.centerXAnchor.constraint(equalTo: centerXAnchor)
-    private lazy var viewWidthBaseConstraint = view.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.275)
+    private lazy var viewWidthBaseConstraint = view.centerXAnchor.constraint(equalTo: centerXAnchor)
     
     private lazy var viewWidthConstraint = viewWidthBaseConstraint
     
-    private lazy var view: UIView = {
-        let view = UIView()
-//        view.axis = .horizontal
-//        view.spacing = 8
+    private lazy var view: UIStackView = {
+        let view = UIStackView()
+        view.axis = .horizontal
+        view.spacing = 8
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -44,7 +45,7 @@ class CenteredSearchBar: UIControl {
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.attributedPlaceholder = NSAttributedString(
-                string: "Search Field",
+                string: "Search",
                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray]
             )
         searchBar.font = UIFont.systemFont(ofSize: 17)
@@ -66,38 +67,30 @@ class CenteredSearchBar: UIControl {
     
     private func setupControl() {
         let iconSide: CGFloat = 17
-        let indent: CGFloat = 8
 
         addSubview(view)
         view.addSubview(iconView)
         view.addSubview(searchTextField)
         
-//        view.addArrangedSubview(iconView)
-//        view.addArrangedSubview(searchTextField)
-
+        view.addArrangedSubview(iconView)
+        view.addArrangedSubview(searchTextField)
+        
+        #warning("iconView.widthAnchor все исправило")
         NSLayoutConstraint.activate([
             
-            viewWidthConstraint,
             view.topAnchor.constraint(equalTo: topAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
             view.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            iconView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: indent),
-            iconView.widthAnchor.constraint(equalToConstant: iconSide),
-            iconView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            iconView.heightAnchor.constraint(equalToConstant: iconSide),
             
-            searchTextField.leadingAnchor.constraint(equalTo: iconView.trailingAnchor, constant: 2 * indent),
-            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -indent),
-            searchTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            iconView.widthAnchor.constraint(equalToConstant: iconSide)
         ])
     }
     
     private func switchViewWidth(isExpanded: Bool) {
         
         viewWidthConstraint.isActive = false
-//        viewWidthConstraint = isExpanded ? view.leadingAnchor.constraint(equalTo: leadingAnchor) : viewWidthBaseConstraint
-        viewWidthConstraint = isExpanded ? view.widthAnchor.constraint(equalTo: widthAnchor) : viewWidthBaseConstraint
+        viewWidthConstraint = isExpanded ? view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: indent) : viewWidthBaseConstraint
         viewWidthConstraint.isActive = true
         
         UIView.animate(withDuration: 0.3) {
