@@ -1,5 +1,5 @@
 //
-//  ContainerViewController.swift
+//  TabBarViewController.swift
 //  Translator
 //
 //  Created by Ксения Маричева on 25.02.2025.

@@ -31,7 +31,6 @@ class DictionaryPresenter {
 extension DictionaryPresenter: DictionaryPresenterProtocol {
     
     func viewWillAppear() {
-        #warning("переименовала метод интерактора")
         interactor.viewWillAppear()
     }
     
@@ -43,8 +42,8 @@ extension DictionaryPresenter: DictionaryPresenterProtocol {
         interactor.deleteDictionary()
     }
     
-    func setupDictionary(with queryTranslations: [QueryTranslation]) {
-        view?.setupDictionary(with: queryTranslations)
+    func setupDictionary(with translationCards: [QueryTranslation]) {
+        view?.setupDictionary(with: translationCards)
     }
     
     func cellSelected(for index: Int) {

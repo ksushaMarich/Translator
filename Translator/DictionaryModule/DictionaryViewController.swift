@@ -18,8 +18,7 @@ class DictionaryViewController: UIViewController {
     
     private var translations: [QueryTranslation] = []
     
-    #warning("Новый лейбел")
-    private lazy var historyLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "History"
@@ -28,7 +27,6 @@ class DictionaryViewController: UIViewController {
         return label
     }()
     
-    #warning("Новое вью с табжестеррекогнайзером")
     private lazy var trashView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +42,7 @@ class DictionaryViewController: UIViewController {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(DictionaryCell.self, forCellReuseIdentifier: DictionaryCell.identifier)
+        view.register(SearchHeaderView.self, forHeaderFooterViewReuseIdentifier: SearchHeaderView.identifier)
         view.backgroundColor = .white
         view.delegate = self
         view.dataSource = self
@@ -53,14 +52,19 @@ class DictionaryViewController: UIViewController {
         return view
     }()
 
-    //MARK: - life cycle
+    // MARK: - Life Cycle
     
-    #warning("Перенесла все в viewWillAppear что бы при нажатии на тачбар отображались новые результаты")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupView()
+        view.backgroundColor = Style.themeColor
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupView()
-        #warning("переименовала метод презентора")
-        view.backgroundColor = Style.themeColor
+        
         presenter?.viewWillAppear()
     }
     
@@ -68,39 +72,37 @@ class DictionaryViewController: UIViewController {
         super.viewDidLayoutSubviews()
     }
     
-    //MARK: - methods
-    #warning("удалила функцию отвечающию за внешний вид navigationController")
+    // MARK: - Methods
+
     private func setupView() {
-        #warning("Новое")
+        
         viewAddGestureRecognizer()
         
-        view.addSubview(historyLabel)
+        view.addSubview(titleLabel)
         view.addSubview(trashView)
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
             
-            historyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            historyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            historyLabel.heightAnchor.constraint(equalToConstant: 50),
-            historyLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant: 50),
+            titleLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.55),
             
-            trashView.centerYAnchor.constraint(equalTo: historyLabel.centerYAnchor),
+            trashView.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             trashView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            trashView.heightAnchor.constraint(equalTo: historyLabel.heightAnchor),
-            trashView.widthAnchor.constraint(equalTo: trashView.widthAnchor),
+            trashView.heightAnchor.constraint(equalToConstant: 27),
+            trashView.widthAnchor.constraint(equalTo: trashView.heightAnchor),
             
-            tableView.topAnchor.constraint(equalTo: historyLabel.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    #warning("Новое")
     func viewAddGestureRecognizer() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        #warning("Новое, это нужно что бы нажатие на ячейку обрабатывалось")
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
         
@@ -110,7 +112,6 @@ class DictionaryViewController: UIViewController {
         presenter?.deleteButtonTapped()
     }
     
-    #warning("Добавила но не уверена что это правилно, именно сюда")
     @objc private func hideKeyboard() {
         view.endEditing(true)
     }
@@ -119,7 +120,6 @@ class DictionaryViewController: UIViewController {
 
 
 extension DictionaryViewController: CenteredSearchBarProtocol {
-    #warning("Новое")
     func textEntered(_ text: String) {
         presenter?.search(with: text)
     }
@@ -138,32 +138,14 @@ extension DictionaryViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    #warning("Новое")
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         50
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        #warning("Пришлось добавить через вью что бы настроить констрейны правильно")
-        let headerView = UIView()
-        let searchBar = CenteredSearchBar()
-        searchBar.delegate = self
-        
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        headerView.addSubview(searchBar)
-        
-        NSLayoutConstraint.activate([
-            searchBar.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
-            searchBar.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: headerView.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            
-            searchBar.topAnchor.constraint(equalTo: headerView.topAnchor),
-            searchBar.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-        ])
-        
-        return headerView
+        let view = SearchHeaderView()
+        view.delegate = self
+        return view
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

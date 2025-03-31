@@ -15,7 +15,6 @@ class DictionaryRouter {
     
     weak var tabBarRouter: TabBarRouterProtocol?
     
-    #warning("перенесла функцию сюда что бы роутер отвечал за создание модуля")
     weak var view: DictionaryViewControllerProtocol?
     
     static func build(with tabBarRouter: TabBarRouterProtocol) -> DictionaryViewController {
