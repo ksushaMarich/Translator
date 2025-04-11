@@ -18,9 +18,8 @@ class CenteredSearchBar: UIControl {
     
     weak var delegate: CenteredSearchBarProtocol?
     
-    private lazy var viewWidthBaseConstraint = view.centerXAnchor.constraint(equalTo: centerXAnchor)
-    
-    private lazy var viewWidthConstraint = viewWidthBaseConstraint
+    private lazy var viewXConstraint = viewBaseXConstraint
+    private lazy var viewBaseXConstraint = view.centerXAnchor.constraint(equalTo: centerXAnchor)
     
     private lazy var view: UIStackView = {
         let view = UIStackView()
@@ -75,13 +74,10 @@ class CenteredSearchBar: UIControl {
         view.addArrangedSubview(iconView)
         view.addArrangedSubview(searchTextField)
         
-        #warning("iconView.widthAnchor все исправило")
         NSLayoutConstraint.activate([
-            
             view.topAnchor.constraint(equalTo: topAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor),
-            view.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
+            viewXConstraint,
             
             iconView.widthAnchor.constraint(equalToConstant: iconSide)
         ])
@@ -89,9 +85,9 @@ class CenteredSearchBar: UIControl {
     
     private func switchViewWidth(isExpanded: Bool) {
         
-        viewWidthConstraint.isActive = false
-        viewWidthConstraint = isExpanded ? view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: indent) : viewWidthBaseConstraint
-        viewWidthConstraint.isActive = true
+        viewXConstraint.isActive = false
+        viewXConstraint = isExpanded ? view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: indent) : viewBaseXConstraint
+        viewXConstraint.isActive = true
         
         UIView.animate(withDuration: 0.3) {
             self.layoutIfNeeded()
